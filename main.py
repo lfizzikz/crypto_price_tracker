@@ -1,6 +1,9 @@
+import json
+
 import requests
 
-aliases = {"btc": "bitcoin", "eth": "ethereum", "sol": "solana", "ltc": "lightcoin"}
+with open("aliases.json", "r") as f:
+    aliases = json.load(f)
 raw_input = input("Enter the coins you want: ")
 coins = []
 for coin in raw_input.lower().replace(" ", "").split(","):
