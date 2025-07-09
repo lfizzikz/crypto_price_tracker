@@ -1,6 +1,7 @@
 import requests
 
-url_assets = "https://rest.coincap.io/v3/assets?ids=bitcoin%2Cethereum"
+coins = input("Enter the coins you want: ")
+url_assets = f"https://rest.coincap.io/v3/assets?ids={coins}"
 headers = {
     "accept": "application/json",
     "Authorization": "Bearer a4060ca4aed5b1e6b169cb6a7d013622abb7fb4e8fe32229d77c16db8e5d1a6b",
