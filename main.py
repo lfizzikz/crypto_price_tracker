@@ -6,6 +6,8 @@ with open("aliases.json", "r") as f:
     aliases = json.load(f)
 raw_input = input("Enter the coins you want: ")
 coins = []
+if raw_input == "":
+    raw_input = "btc, eth"
 for coin in raw_input.lower().replace(" ", "").split(","):
     full_name = aliases.get(coin, coin)
     coins.append(full_name)
