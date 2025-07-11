@@ -1,6 +1,10 @@
+import csv
 import json
+from datetime import datetime
 
 import requests
+from rich.console import Console
+from rich.table import Table
 
 with open("aliases.json", "r") as f:
     aliases = json.load(f)
@@ -26,6 +30,26 @@ if response.status_code == 200:
     for item in data_assets["data"]:
         rate = round(float(item["priceUsd"]), 2)
         assets = round(float(item["changePercent24Hr"]), 2)
-        print(f"{item["symbol"]} - ${rate:,.2f} | 24h Change: {assets}%\n")
+        rank = item["rank"]
+        # print(
+        #     f"{item["symbol"]} - ${rate:,.2f} | 24h Change: {assets}% | Rank: {rank}\n"
+        # )
 else:
     print("nothing found", response.status_code)
+
+with open("prices.csv", "a", newline="") as f:
+    writer = csv.writer(f)
+    for item in data_assets["data"]:
+        rate = round(float(item["priceUsd"]), 2)
+        writer.writerow([datetime.now(), item["id"], f"{rate:,.2f}"])
+
+table = Table(title="Crypto Prices")
+
+table.add_column("Symbol")
+table.add_column("Price")
+table.add_column("24h Change")
+
+for item in data_assets["data"]:
+    table.add_row(item["symbol"], f"${rate:,.2f}", f"{assets}%")
+
+Console().print(table)
